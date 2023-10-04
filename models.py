@@ -4,7 +4,7 @@ from django.db import models
 class User(models.Model):
     uuid = models.CharField(max_length=128, unique=True, default=uuid.uuid4, primary_key=True)
     native_language = models.CharField(max_length=50)
-    learning_language = models.CharField(max_length=50)
+    target_language = models.CharField(max_length=50)
     email = models.CharField(max_length=50)
     full_name = models.CharField(max_length=50)
     is_teacher = models.BooleanField(default=False)
