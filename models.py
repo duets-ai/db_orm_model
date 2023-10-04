@@ -16,7 +16,6 @@ class User(models.Model):
 
 class Meeting(models.Model):
     uuid = models.CharField(max_length=128, unique=True, default=uuid.uuid4, primary_key=True)
-    participants = models.ManyToManyField(User, related_name='participants')
     start_time = models.DateTimeField()
     end_time = models.DateTimeField()
     zoom_meeting_uuid = models.CharField(max_length=50)
