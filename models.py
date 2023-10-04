@@ -1,3 +1,4 @@
+import uuid
 from django.db import models
 
 class User(models.Model):
@@ -9,7 +10,7 @@ class User(models.Model):
     is_teacher = models.BooleanField(default=False)
     zoom_access_token = models.CharField(max_length=512)
     zoom_refresh_token = models.CharField(max_length=512)
-    zoom_token_expiration = models.DateTimeField()
+    zoom_token_expiration = models.CharField(max_length=512)
     zoom_user_id = models.CharField(max_length=50)
     is_zoom_authenticated = models.BooleanField(default=False)
 
