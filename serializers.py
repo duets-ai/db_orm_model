@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from .models import *
 
+
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         fields = (
@@ -14,6 +15,6 @@ class UserSerializer(serializers.ModelSerializer):
             'zoom_refresh_token',
             'zoom_token_expiration',
             'zoom_user_id',
-            'is_zoom_authenticated',   
+            'is_zoom_authenticated',
         )
         model = User
