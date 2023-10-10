@@ -15,10 +15,17 @@ class User(models.Model):
     zoom_user_id = models.CharField(max_length=50)
     is_zoom_authenticated = models.BooleanField(default=False)
 
-
 class Meeting(models.Model):
     uuid = models.CharField(max_length=128, unique=True, default=uuid.uuid4, primary_key=True)
-    start_time = models.DateTimeField()
-    end_time = models.DateTimeField()
+    start_time = models.DateTimeField(blank=True, null=True)
+    end_time = models.DateTimeField(blank=True, null=True)
     zoom_meeting_uuid = models.CharField(max_length=50)
-    transcription_id = models.CharField(max_length=50)
+    transcription_id = models.CharField(max_length=50, blank=True)
+    host = models.CharField(max_length=128)
+
+class MeetingParticipants(models.Model):
+    meeting = models.CharField(max_length=128)  # UUID of the Meeting
+    user = models.CharField(max_length=128)  # UUID of the User
+
+    class Meta:
+        unique_together = ['meeting', 'user']
