@@ -19,25 +19,37 @@ class UserSerializer(serializers.ModelSerializer):
         )
         model = User
 
+class ParticipantSerializer(serializers.ModelSerializer):
+    class Meta:
+        fields = (
+            'uuid',
+            'zoom_user_id'
+            'full_name',
+            'email',
+            'is_teacher',
+            'native_language',
+            'target_language',
+        )
+        model = User
 
 class MeetingSerializer(serializers.ModelSerializer):
     participants = serializers.SerializerMethodField()
     class Meta:
         fields = (
-            'start_time',
-            'end_time',
             'uuid',
             'zoom_meeting_uuid',
+            'start_time',
+            'end_time',
             'transcription_id',
+            'host',
             'participants',
-            'host'
         )
         model = Meeting
 
     def get_participants(self, obj):
-        participants_uuids = MeetingParticipant.objects.filter(meeting=obj.uuid).values_list('user', flat=True)
-        participants = User.objects.filter(uuid__in=participants_uuids)
-        return UserSerializer(participants, many=True).data
+        participants_uuids = MeetingParticipants.objects.filter(meeting=obj.zoom_meeting_uuid).values_list('user', flat=True)
+        participants = User.objects.filter(zoom_user_id__in=participants_uuids)
+        return ParticipantSerializer(participants, many=True).data
 
 class MeetingParticipantSerializer(serializers.ModelSerializer):
     class Meta:
