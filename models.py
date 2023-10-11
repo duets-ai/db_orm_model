@@ -29,3 +29,15 @@ class MeetingParticipants(models.Model):
 
     class Meta:
         unique_together = ['meeting', 'user']
+
+class MeetingRecordings(models.Model):
+    meeting = models.CharField(max_length=128)  # UUID of the Meeting
+    file_id = models.CharField(max_length=50) # UUID of the Recording
+    file_name = models.CharField(max_length=128)
+    file_type = models.CharField(max_length=128)
+    file_size = models.IntegerField()
+    download_url = models.CharField(max_length=512)
+    download_token = models.CharField(max_length=512)
+
+    class Meta:
+        unique_together = ['meeting', 'file_id']
