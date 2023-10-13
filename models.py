@@ -52,7 +52,7 @@ class Transcription(models.Model):
 
 
 class TranscriptionElement(models.Model):
-    trancription_uuid = models.CharField(max_length=50)  # UUID of the Transcription
+    transcription_uuid = models.CharField(max_length=50)  # UUID of the Transcription
     speaker_uuid = models.CharField(max_length=128)  # UUID of the User
     text = models.TextField()
     start = models.IntegerField()
