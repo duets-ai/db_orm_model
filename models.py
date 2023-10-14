@@ -59,4 +59,4 @@ class TranscriptionElement(models.Model):
     end = models.IntegerField()
 
     class Meta:
-        unique_together = ['meeting_uuid', 'speaker_uuid', 'start', 'end']
+        unique_together = ['transcription_uuid', 'speaker_uuid', 'start', 'end']
