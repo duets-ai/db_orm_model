@@ -54,7 +54,7 @@ class Transcription(models.Model):
 class TranscriptionElement(models.Model):
     transcription_uuid = models.CharField(max_length=50)  # UUID of the Transcription
     speaker_uuid = models.CharField(max_length=128)  # UUID of the User
-    text = models.TextField()
+    text = models.TextField()  # TODO might need to change to blank=True
     start = models.IntegerField()
     end = models.IntegerField()
 

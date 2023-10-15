@@ -131,7 +131,7 @@ class TranscriptionSerializer(serializers.ModelSerializer):
 class TranscriptionElementSerializer(serializers.ModelSerializer):
     class Meta:
         fields = (
-            'meeting_uuid',
+            'transcription_uuid',
             'speaker_uuid',
             'text',
             'start',
@@ -140,8 +140,8 @@ class TranscriptionElementSerializer(serializers.ModelSerializer):
         model = TranscriptionElement
 
     def validate(self, data):
-        # Check if the file is already a recording
-        if TranscriptionElement.objects.filter(transcription=data['transcription'], text=data['text'],
+        # Check if the transcript is already in the database
+        if TranscriptionElement.objects.filter(transcription_uuid=data['transcription_uuid'], text=data['text'],
                                                start=data['start'], end=data['end']).exists():
             raise serializers.ValidationError("The transcript is already in the database.")
         return data
