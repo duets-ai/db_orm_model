@@ -3,6 +3,11 @@ from .models import *
 import re
 
 
+def extract_name(s):
+    match = re.search(r'Audio only - (\w+ \w+)', s)
+    return match.group(1) if match else None
+
+
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         fields = (
@@ -75,11 +80,6 @@ class MeetingParticipantSerializer(serializers.ModelSerializer):
         return data
 
 
-def extract_name(s):
-    match = re.search(r'Audio only - (\w+ \w+)', s)
-    return match.group(1) if match else None
-
-
 class MeetingRecordingSerializer(serializers.ModelSerializer):
     user = serializers.SerializerMethodField()
 
@@ -112,7 +112,7 @@ class TranscriptionSerializer(serializers.ModelSerializer):
         model = Transcription
 
     def get_transcripts(self, obj):
-        all_transcripts = TranscriptionElement.objects.filter(meeting_uuid=obj.meeting_uuid)
+        all_transcripts = TranscriptionElement.objects.filter(transcription_uuid=obj.uuid)
         transcript_dict = {}
 
         for transcript in all_transcripts:
