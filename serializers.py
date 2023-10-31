@@ -2,11 +2,10 @@ from rest_framework import serializers
 from .models import *
 import re
 
-
-def extract_name(s):
-    match = re.search(r'Audio only - (\w+ \w+)', s)
-    return match.group(1) if match else None
-
+class Utils:
+    def extract_name(s):
+        match = re.search(r'Audio only - (\w+ \w+)', s)
+        return match.group(1) if match else None
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -52,6 +51,7 @@ class MeetingSerializer(serializers.ModelSerializer):
             'end_time',
             'transcription_id',
             'host',
+            'languages',
             'participants',
             'meeting_recordings'
         )
@@ -89,8 +89,11 @@ class MeetingRecordingSerializer(serializers.ModelSerializer):
 
     def get_user(self, obj):
         file_name = obj.file_name
-        user_name = extract_name(file_name)
-        user = User.objects.get(full_name=user_name)
+        user_name = Utils.extract_name(file_name)
+        try:
+            user = User.objects.get(full_name=user_name)
+        except User.DoesNotExist:
+            return None
         return ParticipantSerializer(user).data
 
     def validate(self, data):
