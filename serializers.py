@@ -4,7 +4,7 @@ import re
 
 class Utils:
     def extract_name(s):
-        match = re.search(r'Audio only - (\w+ \w+)', s)
+        match = re.search(r'(- )(.+)', s)
         return match.group(1) if match else None
 
 class UserSerializer(serializers.ModelSerializer):
