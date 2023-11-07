@@ -3,6 +3,7 @@ from .models import *
 import re
 
 class Utils:
+    @staticmethod
     def extract_name(s):
         match = re.search(r'(- )(.+)', s)
         return match.group(1) if match else None
