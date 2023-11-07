@@ -21,9 +21,10 @@ class Meeting(models.Model):
     start_time = models.DateTimeField(blank=True, null=True)
     end_time = models.DateTimeField(blank=True, null=True)
     zoom_meeting_uuid = models.CharField(max_length=50)
-    transcription_id = models.CharField(max_length=50, blank=True)
     host = models.CharField(max_length=128)
     languages = models.JSONField(default=list, blank=True)
+    transcription_blob = models.CharField(max_length=256)
+
 
 class MeetingParticipants(models.Model):
     meeting = models.CharField(max_length=128)  # UUID of the Meeting
@@ -44,19 +45,3 @@ class MeetingRecordings(models.Model):
 
     class Meta:
         unique_together = ['meeting', 'file_id']
-
-
-class Transcription(models.Model):
-    uuid = models.CharField(max_length=50, unique=True, default=uuid.uuid4, primary_key=True)
-    meeting_uuid = models.CharField(max_length=128)  # UUID of the Meeting
-
-
-class TranscriptionElement(models.Model):
-    transcription_uuid = models.CharField(max_length=50)  # UUID of the Transcription
-    speaker_uuid = models.CharField(max_length=128)  # UUID of the User
-    text = models.TextField(blank=True)
-    start = models.IntegerField()
-    end = models.IntegerField()
-
-    class Meta:
-        unique_together = ['transcription_uuid', 'speaker_uuid', 'start', 'end']

@@ -2,11 +2,13 @@ from rest_framework import serializers
 from .models import *
 import re
 
+
 class Utils:
     @staticmethod
     def extract_name(s):
         match = re.search(r'(- )(.+)', s)
         return match.group(1) if match else None
+
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -50,11 +52,11 @@ class MeetingSerializer(serializers.ModelSerializer):
             'zoom_meeting_uuid',
             'start_time',
             'end_time',
-            'transcription_id',
             'host',
             'languages',
             'participants',
-            'meeting_recordings'
+            'meeting_recordings',
+            'transcription_blob',
         )
         model = Meeting
 
@@ -101,52 +103,4 @@ class MeetingRecordingSerializer(serializers.ModelSerializer):
         # Check if the file is already a recording
         if MeetingRecordings.objects.filter(meeting=data['meeting'], file_id=data['file_id']).exists():
             raise serializers.ValidationError("The file is already a recording of the meeting.")
-        return data
-
-
-class TranscriptionSerializer(serializers.ModelSerializer):
-    transcripts = serializers.SerializerMethodField()
-
-    class Meta:
-        fields = (
-            'uuid',
-            'meeting_uuid',
-            'transcripts',
-        )
-        model = Transcription
-
-    def get_transcripts(self, obj):
-        all_transcripts = TranscriptionElement.objects.filter(transcription_uuid=obj.uuid)
-        transcript_dict = {}
-
-        for transcript in all_transcripts:
-            speaker_uuid = transcript.speaker_uuid
-            if speaker_uuid not in transcript_dict:
-                transcript_dict[speaker_uuid] = []
-            transcript_data = {
-                'text': transcript.text,
-                'start': transcript.start,
-                'end': transcript.end
-            }
-            transcript_dict[speaker_uuid].append(transcript_data)
-        return transcript_dict
-
-
-class TranscriptionElementSerializer(serializers.ModelSerializer):
-    class Meta:
-        fields = (
-            'transcription_uuid',
-            'speaker_uuid',
-            'text',
-            'start',
-            'end',
-        )
-        model = TranscriptionElement
-
-    def validate(self, data):
-        # Check if the transcript is already in the database
-        if TranscriptionElement.objects.filter(transcription_uuid=data['transcription_uuid'], text=data['text'],
-                                               speaker_uuid=data['speaker_uuid'],
-                                               start=data['start'], end=data['end']).exists():
-            raise serializers.ValidationError("The transcript is already in the database.")
         return data
