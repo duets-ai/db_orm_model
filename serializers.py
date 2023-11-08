@@ -7,7 +7,7 @@ class Utils:
     @staticmethod
     def extract_name(s):
         match = re.search(r'(- )(.+)', s)
-        return match.group(1) if match else None
+        return match.group(2) if match else None
 
 
 class UserSerializer(serializers.ModelSerializer):

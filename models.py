@@ -23,7 +23,7 @@ class Meeting(models.Model):
     zoom_meeting_uuid = models.CharField(max_length=50)
     host = models.CharField(max_length=128)
     languages = models.JSONField(default=list, blank=True)
-    transcription_blob = models.CharField(max_length=256)
+    transcription_blob = models.CharField(max_length=256, blank=True, null=True)
 
 
 class MeetingParticipants(models.Model):
