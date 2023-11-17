@@ -6,7 +6,7 @@ class User(models.Model):
     uuid = models.CharField(max_length=128, unique=True, default=uuid.uuid4, primary_key=True)
     native_language = models.CharField(max_length=50, blank=True)
     target_language = models.CharField(max_length=50, blank=True)
-    email = models.CharField(max_length=50)
+    email = models.EmailField(max_length=50)
     full_name = models.CharField(max_length=50)
     is_teacher = models.BooleanField(default=False)
     zoom_access_token = models.CharField(max_length=800)
