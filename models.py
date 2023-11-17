@@ -6,7 +6,7 @@ class User(models.Model):
     uuid = models.CharField(max_length=128, unique=True, default=uuid.uuid4, primary_key=True)
     native_language = models.CharField(max_length=50, blank=True)
     target_language = models.CharField(max_length=50, blank=True)
-    email = models.CharField(max_length=50)
+    email = models.EmailField(max_length=50)
     full_name = models.CharField(max_length=50)
     is_teacher = models.BooleanField(default=False)
     zoom_access_token = models.CharField(max_length=800)
@@ -14,6 +14,24 @@ class User(models.Model):
     zoom_token_expiration = models.CharField(max_length=512)
     zoom_user_id = models.CharField(max_length=50)
     is_zoom_authenticated = models.BooleanField(default=False)
+
+    class Meta:
+        db_table = 'users'
+
+
+class MeetingRecordings(models.Model):
+    uuid = models.CharField(max_length=128, unique=True, default=uuid.uuid4, primary_key=True)
+    meeting = models.CharField(max_length=128)  # UUID of the Meeting
+    file_id = models.CharField(max_length=50)
+    file_name = models.CharField(max_length=128)
+    file_type = models.CharField(max_length=128)
+    file_size = models.IntegerField()
+    download_url = models.CharField(max_length=512)
+    download_token = models.CharField(max_length=512)
+
+    class Meta:
+        unique_together = ['meeting', 'file_id']
+        db_table = 'meeting_recordings'
 
 
 class Meeting(models.Model):
@@ -24,24 +42,8 @@ class Meeting(models.Model):
     host = models.CharField(max_length=128)
     languages = models.JSONField(default=list, blank=True)
     transcription_blob = models.CharField(max_length=256, blank=True, null=True)
-
-
-class MeetingParticipants(models.Model):
-    meeting = models.CharField(max_length=128)  # UUID of the Meeting
-    user = models.CharField(max_length=128)  # UUID of the User
+    participants = models.ManyToManyField(User, related_name='participants', blank=True)
+    meeting_recordings = models.ManyToManyField(MeetingRecordings, related_name='meeting_recordings', blank=True)
 
     class Meta:
-        unique_together = ['meeting', 'user']
-
-
-class MeetingRecordings(models.Model):
-    meeting = models.CharField(max_length=128)  # UUID of the Meeting
-    file_id = models.CharField(max_length=50)  # UUID of the Recording
-    file_name = models.CharField(max_length=128)
-    file_type = models.CharField(max_length=128)
-    file_size = models.IntegerField()
-    download_url = models.CharField(max_length=512)
-    download_token = models.CharField(max_length=512)
-
-    class Meta:
-        unique_together = ['meeting', 'file_id']
+        db_table = 'meetings'
