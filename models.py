@@ -47,3 +47,15 @@ class Meeting(models.Model):
 
     class Meta:
         db_table = 'meetings'
+
+
+class Output(models.Model):
+    output = models.CharField(max_length=128, unique=True, primary_key=True)  # UUID of the output
+    meeting_date = models.DateTimeField(auto_now_add=True)
+    student_id = models.CharField(max_length=128, unique=False, blank=False, null=False)
+    teacher_id = models.CharField(max_length=128, unique=False, blank=False, null=False)
+    json_blob = models.CharField(max_length=256, blank=False, null=False)
+
+    class Meta:
+        #unique_together = ['output', 'student_id', 'teacher_id']
+        db_table = 'output'
