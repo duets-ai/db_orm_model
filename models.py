@@ -44,15 +44,7 @@ class Meeting(models.Model):
     transcription_blob = models.CharField(max_length=256, blank=True, null=True)
     participants = models.ManyToManyField(User, related_name='participants', blank=True)
     meeting_recordings = models.ManyToManyField(MeetingRecordings, related_name='meeting_recordings', blank=True)
-
-    class Meta:
-        db_table = 'meetings'
-
-
-class Output(models.Model):
-    meeting_uuid = models.CharField(max_length=128, unique=True, primary_key=True)  # UUID of the output
-    created_at = models.DateTimeField(auto_now_add=True)
     json_blob = models.CharField(max_length=256, blank=False, null=False)
 
     class Meta:
-        db_table = 'output'
+        db_table = 'meetings'
