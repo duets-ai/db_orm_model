@@ -44,6 +44,7 @@ class Meeting(models.Model):
     transcription_blob = models.CharField(max_length=256, blank=True, null=True)
     participants = models.ManyToManyField(User, related_name='participants', blank=True)
     meeting_recordings = models.ManyToManyField(MeetingRecordings, related_name='meeting_recordings', blank=True)
+    feedback_blob = models.CharField(max_length=256, blank=True, null=True)
 
     class Meta:
         db_table = 'meetings'
