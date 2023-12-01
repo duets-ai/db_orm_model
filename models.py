@@ -3,14 +3,13 @@ from django.db import models
 
 
 class User(models.Model):
+
+    #Frontend Auth Fields
     uuid = models.CharField(max_length=128, unique=True, default=uuid.uuid4, primary_key=True)
     email = models.EmailField(max_length=50)
+    hashed_password = models.CharField(max_length=50)
 
-    native_language = models.CharField(max_length=50, blank=True)
-    target_language = models.CharField(max_length=50, blank=True)
-    is_teacher = models.BooleanField(default=False)
-    
-
+    #Zoom Auth Fields
     full_name = models.CharField(max_length=50)
     zoom_access_token = models.CharField(max_length=800)
     zoom_refresh_token = models.CharField(max_length=800)
@@ -18,6 +17,11 @@ class User(models.Model):
     zoom_user_id = models.CharField(max_length=50)
     is_zoom_authenticated = models.BooleanField(default=False)
 
+    #User Profile Fields
+    native_language = models.CharField(max_length=50, blank=True)
+    target_language = models.CharField(max_length=50, blank=True)
+    is_teacher = models.BooleanField(default=False)
+    
     class Meta:
         db_table = 'users'
 
