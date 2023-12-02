@@ -15,6 +15,7 @@ class UserSerializer(serializers.ModelSerializer):
         fields = (
             'uuid',
             'full_name',
+            'hashed_password',
             'email',
             'is_teacher',
             'native_language',
@@ -26,6 +27,10 @@ class UserSerializer(serializers.ModelSerializer):
             'is_zoom_authenticated',
         )
         model = User
+        extra_kwargs = {
+            'email': {'required': True},
+            'hashed_password': {'required': True},
+        }
 
 
 class MeetingRecordingSerializer(serializers.ModelSerializer):
