@@ -7,7 +7,7 @@ class User(models.Model):
     #Frontend Auth Fields
     uuid = models.CharField(max_length=128, unique=True, default=uuid.uuid4, primary_key=True)
     email = models.EmailField(max_length=50)
-    hashed_password = models.CharField(max_length=50)
+    hashed_password = models.CharField(max_length=50, blank=False, null=False)
 
     #Zoom Auth Fields
     full_name = models.CharField(max_length=50)
