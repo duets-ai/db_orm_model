@@ -30,6 +30,16 @@ class UserSerializer(serializers.ModelSerializer):
         extra_kwargs = {
             'email': {'required': True},
             'hashed_password': {'required': True},
+            'is_teacher': {'required': True},
+            'native_language': {'required': True},
+            'target_language': {'required': True},
+
+            'full_name': {'required': False},
+            'zoom_access_token': {'required': False},
+            'zoom_refresh_token': {'required': False},
+            'zoom_token_expiration': {'required': False},
+            'zoom_user_id': {'required': False},
+            'is_zoom_authenticated': {'required': False},
         }
 
 
