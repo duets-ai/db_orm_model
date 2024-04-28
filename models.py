@@ -15,6 +15,8 @@ class User(models.Model):
     zoom_token_expiration = models.CharField(max_length=512)
     zoom_user_id = models.CharField(max_length=50)
     is_zoom_authenticated = models.BooleanField(default=False)
+    session_token = models.CharField(max_length=128, null=True, blank=True)
+    session_token_expiration = models.DateTimeField(null=True, blank=True)
 
     # User Profile Fields
     native_language = models.CharField(max_length=50, blank=True)
@@ -51,6 +53,7 @@ class Meeting(models.Model):
     participants = models.ManyToManyField(User, related_name='participants', blank=True)
     meeting_recordings = models.ManyToManyField(MeetingRecordings, related_name='meeting_recordings', blank=True)
     feedback_blob = models.CharField(max_length=256, blank=True, null=True)
+    html_file_name = models.CharField(max_length=256, blank=True, null=True)
 
     class Meta:
         db_table = 'meetings'
