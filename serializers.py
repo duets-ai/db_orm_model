@@ -25,6 +25,8 @@ class UserSerializer(serializers.ModelSerializer):
             'zoom_token_expiration',
             'zoom_user_id',
             'is_zoom_authenticated',
+            'session_token',
+            'session_token_expiration',
         )
         model = User
         extra_kwargs = {
@@ -102,5 +104,6 @@ class MeetingSerializer(serializers.ModelSerializer):
             'transcription_blob',
             'participants',
             'meeting_recordings',
+            'html_file_name',
         )
         model = Meeting
