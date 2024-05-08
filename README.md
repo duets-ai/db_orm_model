@@ -1,5 +1,5 @@
 # Table Migrations
-In order to migrate the models and reflect the changes on the PlanetScale Database run:
+In order to migrate the models and reflect the changes on the PlanetScale Database run the following:
 
 ```
 cd transcription_service
